@@ -28,10 +28,7 @@ def arithmetic_arranger(problems, display_answers=False):
         second_operands.append(second_operand)
         
         if display_answers:
-            if operator == "+":
-                result = str(int(first_operand) + int(second_operand))
-            elif operator == "-":
-                result = str(int(first_operand) - int(second_operand))
+            result = str(int(first_operand) + int(second_operand)) if operator == "+" else str(int(first_operand) - int(second_operand))
             results.append(result)
     
     first_line = ""
@@ -39,13 +36,16 @@ def arithmetic_arranger(problems, display_answers=False):
     dash_line = ""
     result_line = ""
     
-    for i in range(len(problems)):
-        width = max(len(first_operands[i]), len(second_operands[i])) + 2
-        first_line += first_operands[i].rjust(width) + "    "
-        second_line += operators[i] + second_operands[i].rjust(width - 1) + "    "
+    for first, op, second in zip(first_operands, operators, second_operands):
+        width = max(len(first), len(second)) + 2
+        first_line += first.rjust(width) + "    "
+        second_line += op + second.rjust(width - 1) + "    "
         dash_line += "-" * width + "    "
-        if display_answers:
-            result_line += results[i].rjust(width) + "    "
+        
+    if display_answers:
+        for result in results:
+            width = max(len(first_operands[results.index(result)]), len(second_operands[results.index(result)])) + 2
+            result_line += result.rjust(width) + "    "
     
     arranged_problems = first_line.rstrip() + "\n" + second_line.rstrip() + "\n" + dash_line.rstrip()
     if display_answers:
